@@ -1970,6 +1970,70 @@
             });
         }, 100);
 
+        // Testimonials carousel
+        const testimonialEls = Array.from($$('.testimonial'));
+        const prevBtn = $('#prevBtn');
+        const nextBtn = $('#nextBtn');
+        const playPauseBtn = $('#playPauseBtn');
+
+        let currentTestimonialIndex = testimonialEls.findIndex(el => el.classList.contains('active'));
+        if (currentTestimonialIndex < 0 && testimonialEls.length > 0) {
+            currentTestimonialIndex = 0;
+            testimonialEls[0].classList.add('active');
+        }
+
+        function setActiveTestimonial(index) {
+            if (testimonialEls.length === 0) return;
+            testimonialEls.forEach(el => el.classList.remove('active'));
+            currentTestimonialIndex = (index + testimonialEls.length) % testimonialEls.length;
+            testimonialEls[currentTestimonialIndex].classList.add('active');
+        }
+
+        function showNextTestimonial() { setActiveTestimonial(currentTestimonialIndex + 1); }
+        function showPrevTestimonial() { setActiveTestimonial(currentTestimonialIndex - 1); }
+
+        if (prevBtn) prevBtn.addEventListener('click', showPrevTestimonial);
+        if (nextBtn) nextBtn.addEventListener('click', showNextTestimonial);
+
+        let userPaused = false;
+        let testimonialTimer = null;
+
+        function startAutoplay() {
+            if (testimonialTimer || testimonialEls.length <= 1) return;
+            testimonialTimer = setInterval(showNextTestimonial, 6000);
+            if (playPauseBtn) playPauseBtn.textContent = '⏸';
+        }
+
+        function stopAutoplay() {
+            if (testimonialTimer) {
+                clearInterval(testimonialTimer);
+                testimonialTimer = null;
+            }
+            if (playPauseBtn) playPauseBtn.textContent = '▶';
+        }
+
+        if (playPauseBtn) {
+            playPauseBtn.addEventListener('click', () => {
+                userPaused = !userPaused;
+                if (userPaused) {
+                    stopAutoplay();
+                } else {
+                    startAutoplay();
+                }
+            });
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopAutoplay();
+            } else if (!userPaused) {
+                startAutoplay();
+            }
+        });
+
+        // Kick off autoplay by default
+        if (!userPaused) startAutoplay();
+
         // Modal logic
         const openModalButtons = $$('.open-modal-btn');
         const closeModalButtons = $$('.close-modal-btn');
