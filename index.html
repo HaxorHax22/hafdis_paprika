@@ -21,6 +21,21 @@
     <meta name="twitter:description" content="Næringarþjálfun, ráðgjöf og fræðsla. Ævintýri Petru Papriku & einfaldar uppskriftir.">
     <meta name="twitter:image" content="img/bokin_sjalf.png">
     
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Book",
+      "name": "Ævintýri Petru Papriku",
+      "author": { "@type": "Person", "name": "Hafdís Helgadóttir" },
+      "inLanguage": "is",
+      "image": "img/bokin_sjalf.png",
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.penninn.is/is/book/aevintyri-petru-papriku?fbclid=PAZXh0bgNhZW0CMTEAAads6NlVcK7lxiAImSUwdANlz_w2-ZM8W7vFo7-XxoCgbC6ix9itbEBBNJ2z7g_aem_gSpAwRvfxSRGcyp0nwC2kg"
+      }
+    }
+    </script>
+    
     <style>
         /* Reset and base styles */
         *, *::before, *::after {
@@ -528,6 +543,10 @@
     margin: 0 auto;
     overflow: hidden;
     box-shadow: var(--shadow);
+}
+
+@media (min-width: 768px) {
+    .book-cover { max-width: 460px; }
 }
 
 .book-cover-image {
@@ -1353,6 +1372,11 @@
                             Ævintýri Petru Papriku er saga fyrir börn þar sem næringarfræðsla er fléttuð inn á skemmtilegan hátt. Yngri börnin njóta lifandi mynda, eldri börn lesa sjálf og kafa dýpra. Aftast er fræðslukafli fyrir þann sem les með barninu og leiðarvísir í efni á netinu. Textinn hentar vel fyrir lesblinda.
                         </p>
                         
+                        <div class="book-quote" aria-label="Umsögn um bókina">
+                            <p>"Mæli með að þið nælið ykkur í eintak af þessari frábæru barnabók... Algjör negla!"</p>
+                            <small>— Íris Mist Magnúsdóttir</small>
+                        </div>
+                        
                         <div class="book-facts">
                             <h4>Upplýsingar um bókina</h4>
                             <ul>
@@ -1756,6 +1780,7 @@
         // Header scroll behavior
         let lastScrollY = window.scrollY;
         const header = $('#header');
+        const stickyBuy = $('#stickyBuy');
         
         function updateHeader() {
             const scrollY = window.scrollY;
@@ -1774,6 +1799,12 @@
                 } else {
                     header.classList.remove('hidden');
                 }
+            }
+            
+            // Toggle sticky buy button
+            if (stickyBuy) {
+                if (scrollY > 300) stickyBuy.classList.add('visible');
+                else stickyBuy.classList.remove('visible');
             }
             
             lastScrollY = scrollY;
