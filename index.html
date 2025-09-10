@@ -351,6 +351,15 @@
             color: var(--dark);
         }
 
+        .section-intro {
+            text-align: center;
+            color: #666;
+            max-width: 800px;
+            margin: -8px auto 32px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
         .section-alt {
             background: var(--gray);
         }
@@ -530,6 +539,16 @@
     .book-content {
         grid-template-columns: 1fr 1fr;
     }
+}
+
+/* Balance text vs. image in the book section */
+#book p, #book li {
+    font-size: clamp(0.95rem, 1.2vw, 1rem);
+    line-height: 1.65;
+}
+@media (min-width: 768px) {
+    /* Ensure the image column never shrinks too small on wider screens */
+    #book .book-content { grid-template-columns: minmax(400px, 1fr) 1fr; }
 }
 
 .book-cover {
@@ -1441,7 +1460,9 @@
 
 <section class="section" id="radgjof">
 <div class="container">
-    <h2 class="section-title">Ráð & leiðbeiningar</h2>
+    <h2 class="section-title">Námsefni & fræðslumolar</h2>
+    <p class="section-intro">Auk bókarinnar Ævintýri Petru Papriku býð ég einnig upp á fræðslumola og efni fyrir börn, unglinga og fullorðna sem hjálpa til við að byggja upp heilbrigðar matarvenjur</p>
+    
     <div class="grid grid-3">
         <div class="card advice-card">
             <img src="more_img/godradborn.jpg" alt="Góð ráð fyrir börn" class="card-image">
