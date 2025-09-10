@@ -1,0 +1,8 @@
+{
+  // Cloudflare Workers/Pages deployment via `wrangler deploy`
+  "name": "hafdis-paprika",
+  "compatibility_date": "2025-09-10",
+  "assets": {
+    "directory": "."
+  }
+}
