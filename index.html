@@ -53,7 +53,7 @@
             
             --font-base: 18px;
             --line-height-base: 1.7;
-            --font-family: Georgia, 'Times New Roman', serif;
+            --font-family: var(--font-family-sans);
             --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Inter, Arial, sans-serif;
             
             --section-spacing-mobile: 64px;
@@ -61,12 +61,6 @@
             --border-radius: 16px;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.15);
-        }
-
-        .reading-mode {
-            --font-base: 16px;
-            --line-height-base: 1.6;
-            --font-family: var(--font-family-sans);
         }
 
         body {
@@ -182,10 +176,11 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(250, 243, 224, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(250, 243, 224, 0.9);
+            backdrop-filter: blur(8px);
             z-index: 100;
             transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .header.scrolled {
@@ -200,13 +195,13 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 0;
-            min-height: 72px;
+            padding: 12px 0;
+            min-height: 78px;
         }
 
         .wordmark {
             font-size: 20px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--dark);
             text-decoration: none;
         }
@@ -218,19 +213,39 @@
         .nav-list {
             display: flex;
             list-style: none;
-            gap: 32px;
+            gap: 28px;
         }
 
         .nav-link {
             color: var(--dark);
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            position: relative;
+            padding: 8px 0;
+            transition: color 0.2s ease;
         }
 
         .nav-link:hover {
             color: var(--orange);
         }
+
+        /* Underline animation for nav */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--orange);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.2s ease;
+        }
+        .nav-link:hover::after { transform: scaleX(1); }
+        .nav-link.active { color: var(--orange); }
+        .nav-link.active::after { transform: scaleX(1); }
 
         .reading-toggle {
             background: var(--gray);
@@ -251,6 +266,10 @@
             .nav {
                 display: block;
             }
+            .nav-list { gap: 32px; }
+        }
+        @media (min-width: 1024px) {
+            .nav-list { gap: 40px; }
         }
 
         /* Hero */
@@ -259,7 +278,7 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding-top: 72px;
+            padding-top: 86px;
             overflow: hidden;
         }
 
@@ -1066,6 +1085,12 @@
     .btn {
         width: 100%;
     }
+    /* Mobile header polish */
+    .header { background: var(--cream); backdrop-filter: none; }
+    .header-content { padding: 22px 0; min-height: 62px; justify-content: flex-start; }
+    .wordmark { font-size: 19px; font-weight: 800; text-align: left; }
+    /* Ensure comfortable spacing below the fixed header */
+    .hero { padding-top: 76px; }
 }
 
 /* Modal */
@@ -1344,17 +1369,14 @@
                 <nav class="nav" role="navigation" aria-label="Aðalvalmynd">
                     <ul class="nav-list">
                         <li><a href="#book" class="nav-link">Bókin</a></li>
+                        <li><a href="#testimonials" class="nav-link">Umsagnir</a></li>
                         <li><a href="#radgjof" class="nav-link">Ráðgjöf</a></li>
                         <li><a href="#uppskriftir" class="nav-link">Uppskriftir</a></li>
-                        <li><a href="#testimonials" class="nav-link">Umsagnir</a></li>
                         <li><a href="#about" class="nav-link">Um Hafdísi</a></li>
                         <li><a href="#contact" class="nav-link">Samband</a></li>
                     </ul>
                 </nav>
                 
-                <button class="reading-toggle" id="readingToggle" aria-label="Skipta um letur">
-                    Sans-serif
-                </button>
             </div>
         </div>
     </header>
@@ -1370,7 +1392,7 @@
                         Ég hjálpa börnum, foreldrum og kennurum að byggja upp heilbrigðan lífsstíl í gegnum fræðslu, ráðgjöf og skapandi verkefni.
                     </p>
                     <div class="hero-actions">
-                        <a href="#services" class="btn btn-primary">Skoða þjónustu</a>
+                        <a href="#radgjof" class="btn btn-primary">Skoða námsefni</a>
                         <a href="https://www.penninn.is/is/book/aevintyri-petru-papriku?fbclid=PAZXh0bgNhZW0CMTEAAads6NlVcK7lxiAImSUwdANlz_w2-ZM8W7vFo7-XxoCgbC6ix9itbEBBNJ2z7g_aem_gSpAwRvfxSRGcyp0nwC2kg" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Kaupa bókina</a>
                     </div>
                 </div>
@@ -1491,8 +1513,8 @@
                 <h3>Fyrir unglinga</h3>
                 <ul>
                     <li>Skipuleggðu daginn (æfingar, skóli, hádegisval).</li>
-                    <li>Drekktu vatn; forðastu orkudrykki nema við langar æfingar.</li>
-                    <li>Borðaðu reglulega og hafðu morgunmat.</li>
+                    <li>Drekktu vatn; forðastu íþróttadrykki nema við langar æfingar.</li>
+                    <li>Borðaðu reglulega morgunmat.</li>
                     <li>Hugsaðu kolvetni + prótein + fita yfir daginn.</li>
                     <li>Hlusta á hungur/seddu og borða í núvitund.</li>
                 </ul>
@@ -1567,7 +1589,7 @@
                     
                     <div>
                         <p style="margin-bottom: 24px;">
-                            Ég heiti Hafdís Helgadóttir og er næringarfræðingur og kennari. Ég hef haldið fræðsluerindi, veitt ráðgjöf og skrifað kennsluefnið "Heil og sæl" fyrir Námsgagnastofnun. Ástríða mín er að styðja börn, foreldra og kennara – með skapandi fræðslu og heilbrigðum lífsstíl.
+                            Ég heiti Hafdís Helgadóttir og er næringarfræðingur og kennari. Ég hef haldið fræðsluerindi, veitt ráðgjöf og skrifað kennsluefnið "Heil og sæl" fyrir Námsgagnastofnun. Ástríða mín er að styðja börn, foreldra og kennara – með skapandi fræðslu og heilbrigðum lífsstíl. Ég gaf út bókina Ævintýri Petru Papriku árið 2024.
                         </p>
                         
                         <div class="about-skills">
@@ -1642,13 +1664,13 @@
                         <div class="contact-methods">
                             <h3>Hafðu samband</h3>
                             
-                            <a href="mailto:hafdis@example.is" class="contact-item">
+                            <a href="mailto:hafdis24@gmail.com" class="contact-item">
                                 <svg class="contact-icon" viewBox="0 0 24 24">
                                     <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"/>
                                 </svg>
                                 <div>
                                     <strong>Netfang</strong><br>
-                                    <small>hafdis@example.is</small>
+                                    <small>hafdis24@gmail.com</small>
                                 </div>
                             </a>
                             
@@ -1683,7 +1705,11 @@
                         </div>
                     </div>
                     
-                    <form class="form" id="contactForm" novalidate>
+                    <form class="form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/" novalidate>
+                        <input type="hidden" name="form-name" value="contact">
+                        <p class="visually-hidden">
+                            <label>Ekki fylla út þetta svæði: <input name="bot-field"></label>
+                        </p>
                         <div class="form-group">
                             <label for="name" class="form-label">Nafn *</label>
                             <input type="text" id="name" name="name" class="form-input" required>
@@ -1813,13 +1839,16 @@
                 header.classList.remove('scrolled');
             }
             
-            // Hide/show header based on scroll direction
-            if (!prefersReducedMotion) {
+            // Mobile: hide on scroll down, show on scroll up. Desktop: always visible
+            const isMobile = window.matchMedia('(max-width: 767px)').matches;
+            if (isMobile && !prefersReducedMotion) {
                 if (scrollY > lastScrollY && scrollY > 100) {
                     header.classList.add('hidden');
                 } else {
                     header.classList.remove('hidden');
                 }
+            } else {
+                header.classList.remove('hidden');
             }
             
             // Toggle sticky buy button
@@ -1832,22 +1861,6 @@
         }
         
         window.addEventListener('scroll', updateHeader);
-        
-        // Font toggle
-        const fontToggle = $('#readingToggle');
-        const html = document.documentElement;
-        
-        // Load saved preference
-        if (localStorage.getItem('sansFont') === 'true') {
-            html.classList.add('reading-mode');
-            fontToggle.textContent = 'Serif';
-        }
-        
-        fontToggle.addEventListener('click', () => {
-            const isSansFont = html.classList.toggle('reading-mode');
-            fontToggle.textContent = isSansFont ? 'Serif' : 'Sans-serif';
-            localStorage.setItem('sansFont', isSansFont);
-        });
         
         // Smooth scrolling for navigation links
         $$('a[href^="#"]').forEach(link => {
@@ -1977,8 +1990,6 @@
         });
         
         contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
             let isValid = true;
             
             // Clear previous errors
@@ -2005,11 +2016,8 @@
                 isValid = false;
             }
             
-            if (isValid) {
-                // Simulate form submission
-                contactForm.reset();
-                showToast();
-            }
+            // Prevent submit only if invalid; otherwise let Netlify handle submission
+            if (!isValid) e.preventDefault();
         });
         
         // Initialize visible sections that are already in view
@@ -2220,6 +2228,48 @@
                 });
             }
         }
+
+        // Highlight active nav link on scroll (desktop polish)
+        const navLinks = Array.from($$('.nav-link'));
+        const sectionIds = navLinks
+            .map(a => a.getAttribute('href'))
+            .filter(href => href && href.startsWith('#'))
+            .map(href => href.slice(1));
+
+        const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+        function updateActiveNav() {
+            const offset = header.offsetHeight + 8;
+            let currentId = sections[0]?.id || '';
+            let found = false;
+            for (const section of sections) {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= offset && rect.bottom >= offset) {
+                    currentId = section.id;
+                    found = true;
+                    break;
+                }
+            }
+            // Fallback: pick the last section whose top has passed the offset
+            if (!found) {
+                for (const section of sections) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= offset) currentId = section.id;
+                }
+            }
+            // If scrolled to bottom, ensure last section is active
+            if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+                currentId = sections[sections.length - 1]?.id || currentId;
+            }
+            navLinks.forEach(a => {
+                const id = a.getAttribute('href')?.slice(1);
+                if (!id) return;
+                if (id === currentId) a.classList.add('active'); else a.classList.remove('active');
+            });
+        }
+        window.addEventListener('scroll', updateActiveNav, { passive: true });
+        window.addEventListener('load', updateActiveNav);
+        window.addEventListener('resize', updateActiveNav);
     </script>
 </body>
 </html>
