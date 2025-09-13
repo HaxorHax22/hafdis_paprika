@@ -1091,6 +1091,14 @@
     .wordmark { font-size: 19px; font-weight: 800; text-align: left; }
     /* Ensure comfortable spacing below the fixed header */
     .hero { padding-top: 76px; }
+    #playPauseBtn {
+        width: auto;
+        min-width: 90px;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+    .testimonial-controls { gap: 12px; }
 }
 
 /* Modal */
@@ -1442,13 +1450,7 @@
     <div class="testimonials-container">
         <div class="testimonials" aria-live="polite">
             <div class="testimonial active">
-                <div class="stars" aria-label="5 stjörnur af 5">
-                    <svg class="star" viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/></svg>
-                    <svg class="star" viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/></svg>
-                    <svg class="star" viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/></svg>
-                    <svg class="star" viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/></svg>
-                    <svg class="star" viewBox="0 0 24 24"><path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/></svg>
-                </div>
+              
                 <p class="testimonial-text">
                     "Mæli með að þið nælið ykkur í eintak af þessari frábæru barnabók eftir Hafdís Helgadóttir sem er einnig næringarfræðingur. Algjör negla og fullkomin í jólapakkan. Til hamingju með þetta Hafdís!"
                 </p>
@@ -2058,10 +2060,16 @@
         let userPaused = false;
         let testimonialTimer = null;
 
+        function updatePlayPauseLabel(running) {
+            if (!playPauseBtn) return;
+            playPauseBtn.textContent = running ? '⏸' : '▶';
+            playPauseBtn.setAttribute('aria-label', running ? 'Stöðva snúning' : 'Spila snúning');
+        }
+
         function startAutoplay() {
             if (testimonialTimer || testimonialEls.length <= 1) return;
             testimonialTimer = setInterval(showNextTestimonial, 6000);
-            if (playPauseBtn) playPauseBtn.textContent = '⏸';
+            updatePlayPauseLabel(true);
         }
 
         function stopAutoplay() {
@@ -2069,7 +2077,7 @@
                 clearInterval(testimonialTimer);
                 testimonialTimer = null;
             }
-            if (playPauseBtn) playPauseBtn.textContent = '▶';
+            updatePlayPauseLabel(false);
         }
 
         if (playPauseBtn) {
@@ -2093,6 +2101,9 @@
 
         // Kick off autoplay by default
         if (!userPaused) startAutoplay();
+        // Ensure correct label on load and on resize
+        updatePlayPauseLabel(!!testimonialTimer);
+        window.addEventListener('resize', () => updatePlayPauseLabel(!!testimonialTimer));
 
         // Modal logic
         const openModalButtons = $$('.open-modal-btn');
