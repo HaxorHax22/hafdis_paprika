@@ -329,7 +329,7 @@
         }
 
         .hero-content {
-            max-width: 600px;
+            max-width: 660px;
         }
 
         .hero h1 {
@@ -1381,7 +1381,7 @@
     <header class="header" id="header">
         <div class="container">
             <div class="header-content">
-                <a href="#" class="wordmark">Hafdís næringarfræðingur</a>
+                <a href="#" class="wordmark">Lærum og nærum</a>
                 
                 <nav class="nav" role="navigation" aria-label="Aðalvalmynd">
                     <ul class="nav-list">
@@ -1404,10 +1404,10 @@
             
             <div class="container">
                 <div class="hero-content">
-                    <h1>Hafdís Helgadóttir – næringarfræðingur & kennari</h1>
-                    <p class="hero-subtitle">
-                        Ég hjálpa börnum, foreldrum og kennurum að byggja upp heilbrigðan lífsstíl í gegnum fræðslu, ráðgjöf og skapandi verkefni.
-                    </p>
+                    <h1>Lærum og nærum - <br>fræðsluvefur um næringu</h1>
+                    <div class="hero-subtitle">
+                       <p>Lærum og nærum er fræðsluvefur fyrir kennara, foreldra og forsjáraðila barna og ungmenna. Hér má finna námsefni, fræðslutexta og upplýsingar um næringu til að fræða börn og ungmenni um hollt mataræði. Fræðsluefnið er byggt í kringum barnabókina Ævintýri Petru papriku ásamt öðru fræðsluefni sem næringarfræðingurinn og rithöfundurinn Hafdís Helgadóttir hefur gefið út.</p>
+                    </div>
                     <div class="hero-actions">
                         <a href="#radgjof" class="btn btn-primary">Skoða námsefni</a>
                         <a href="https://www.penninn.is/is/book/aevintyri-petru-papriku?fbclid=PAZXh0bgNhZW0CMTEAAads6NlVcK7lxiAImSUwdANlz_w2-ZM8W7vFo7-XxoCgbC6ix9itbEBBNJ2z7g_aem_gSpAwRvfxSRGcyp0nwC2kg" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Kaupa bókina</a>
@@ -2260,8 +2260,20 @@
 
         function updateActiveNav() {
             const offset = header.offsetHeight + 8;
-            let currentId = sections[0]?.id || '';
+            let currentId = '';
             let found = false;
+            
+            // Check if we're in the hero section (before any content sections)
+            const heroSection = document.getElementById('hero');
+            if (heroSection) {
+                const heroRect = heroSection.getBoundingClientRect();
+                if (heroRect.bottom > offset) {
+                    // We're still in the hero section, don't highlight any nav link
+                    navLinks.forEach(a => a.classList.remove('active'));
+                    return;
+                }
+            }
+            
             for (const section of sections) {
                 const rect = section.getBoundingClientRect();
                 if (rect.top <= offset && rect.bottom >= offset) {
