@@ -44,6 +44,10 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         :root {
             --cream: #FAF3E0;
             --orange: #F28C38;
@@ -1720,7 +1724,19 @@
     /* Mobile header polish */
     .header { background: var(--cream); backdrop-filter: none; }
     .header-content { padding: 22px 0; min-height: 62px; justify-content: flex-start; }
-    .wordmark { font-size: 19px; font-weight: 800; text-align: left; }
+    .wordmark { 
+        font-size: 19px; 
+        font-weight: 800; 
+        text-align: left; 
+        text-decoration: none;
+        color: var(--dark);
+        transition: color 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .wordmark:hover {
+        color: var(--orange);
+    }
     /* Ensure comfortable spacing below the fixed header */
     .hero { padding-top: 76px; }
     #playPauseBtn {
@@ -2442,7 +2458,7 @@
     <header class="header" id="header">
         <div class="container">
             <div class="header-content">
-                <a href="#" class="wordmark">Lærum og nærum</a>
+                <a href="#hero" class="wordmark">Lærum og nærum</a>
                 
                 <nav class="nav" role="navigation" aria-label="Aðalvalmynd">
                     <ul class="nav-list">
@@ -3246,6 +3262,18 @@
                 }
             });
         }, 100);
+
+        // Handle wordmark click to scroll to top
+        const wordmark = document.querySelector('.wordmark');
+        if (wordmark) {
+            wordmark.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('hero').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        }
 
         // Testimonials carousel
         const testimonialEls = Array.from($$('.testimonial'));
