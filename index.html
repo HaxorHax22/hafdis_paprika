@@ -3366,8 +3366,9 @@
                         </div>
                     </div>
                     
-                    <form class="form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/" novalidate>
+                    <form class="form" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
                         <input type="hidden" name="form-name" value="contact">
+                        <input type="hidden" name="_redirect" value="thank-you.html">
                         <p class="visually-hidden">
                             <label>Ekki fylla út þetta svæði: <input name="bot-field"></label>
                         </p>
@@ -3725,7 +3726,21 @@
             }
             
             // Prevent submit only if invalid; otherwise let Netlify handle submission
-            if (!isValid) e.preventDefault();
+            if (!isValid) {
+                e.preventDefault();
+            } else {
+                // Show loading state
+                const submitBtn = contactForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
+                
+                // Redirect to thank-you page after successful submission
+                // This will work when deployed to Netlify
+                setTimeout(() => {
+                    window.location.href = 'thank-you.html';
+                }, 1000);
+            }
         });
         
         // Initialize visible sections that are already in view
