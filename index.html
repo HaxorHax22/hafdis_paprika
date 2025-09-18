@@ -2569,6 +2569,11 @@
     transition: all 0.3s ease;
 }
 
+.file-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
 .file-item:hover .file-icon {
     fill: white;
     background: rgba(255, 255, 255, 0.2);
@@ -2758,6 +2763,8 @@
         margin-bottom: 12px;
         border-radius: 16px;
         min-height: 60px;
+        display: flex;
+        align-items: center;
     }
     
     .file-item:hover {
@@ -2765,9 +2772,15 @@
     }
     
     .file-icon {
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
+        width: 32px;
+        height: 32px;
+        margin-right: 12px;
+        padding: 4px;
+    }
+    
+    .file-icon svg {
+        width: 100%;
+        height: 100%;
     }
     
     .file-info h4 {
@@ -4226,7 +4239,7 @@
                     ${folder.files.map(file => `
                         <div class="file-item" onclick="openFile('${file.path}')">
                             <div class="file-icon">
-                                <svg viewBox="0 0 24 24" >
+                                <svg viewBox="0 0 24 24" width="100%" height="100%">
                                     <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
                                 </svg>
                             </div>
