@@ -1053,6 +1053,12 @@
     box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2);
 }
 
+.play-pause-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
 /* Testimonials responsive */
 @media (max-width: 768px) {
     .testimonial {
@@ -2630,7 +2636,11 @@
         </div>
         <div class="testimonial-controls">
             <button class="testimonial-btn" id="prevBtn" aria-label="Fyrri umsögn">‹</button>
-            <button class="testimonial-btn" id="playPauseBtn" aria-label="Spila eða stöðva">⏸</button>
+            <button class="testimonial-btn" id="playPauseBtn" aria-label="Spila eða stöðva">
+                <svg class="play-pause-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+            </button>
             <button class="testimonial-btn" id="nextBtn" aria-label="Næsta umsögn">›</button>
         </div>
     </div>
@@ -3267,7 +3277,16 @@
 
         function updatePlayPauseLabel(running) {
             if (!playPauseBtn) return;
-            playPauseBtn.textContent = running ? '⏸' : '▶';
+            const icon = playPauseBtn.querySelector('.play-pause-icon');
+            if (icon) {
+                if (running) {
+                    // Pause icon (two vertical bars)
+                    icon.innerHTML = '<path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>';
+                } else {
+                    // Play icon (triangle)
+                    icon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                }
+            }
             playPauseBtn.setAttribute('aria-label', running ? 'Stöðva snúning' : 'Spila snúning');
         }
 
